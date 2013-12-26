@@ -2,7 +2,7 @@ public class C87 {
 	//97.045 ms
 	public static int fsq = (int)Math.sqrt(50000000) + 1;
 	public static boolean[] primes = new boolean[fsq];
-	public static boolean[] isPPT = new boolean[50000000];
+	public static boolean[] isPPT = new boolean[50000000]; // "is Prime Power Triplet", or a result of a^2 + b^3 + c^4 for some a, b, and c
 	public static int[] squared = new int[fsq];
 	public static int[] cubed = new int[fsq];
 	public static int[] fourth = new int[fsq];
