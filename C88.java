@@ -6,14 +6,29 @@ public class C88 {
 	//I need more practice, first challenge in quite some time. Rewarding, learned about generics.
 	//Possible optimization would be to record factors, not sure how much time that would save.
 
+	//After optimization: 20607.901 ms, same answer
+
 	public static boolean[] prime = new boolean[24001];
 	public static boolean[] crossed = new boolean[24001];
 	public static LinkedList<Integer[]> pairs = new LinkedList<Integer[]>();
+	public static Object[] factors = new Object[24001];
 	public static void main(String[] args) {
 		long startTime = System.nanoTime();
 		int sum = 0;
 
 		for (int i = -1; i < prime.length; i+=2) if (isprime(i)) prime[i] = true; //Check if all possible N are prime, reducing number of possible N checked
+		for (int i = 0; i < factors.length; i++) {
+			LinkedList f = new LinkedList();
+			if (!prime[i]) {
+				for (int d = 2; d <= (int)Math.sqrt(i); d++) {
+					if (i % d == 0) {
+						f.add(d);
+					}
+				}
+			}
+			factors[i] = f;
+		}
+
 
 		for (int k = 2; k <= 12000; k++) {
 			int[] digits = new int[k];
@@ -40,8 +55,6 @@ public class C88 {
 					}
 					n++;
 				}
-
-			System.out.println(k);
 		}
 
 		System.out.println(sum);
@@ -56,13 +69,15 @@ public class C88 {
 		//if both are prime, do nothing
 		if (prime[a] ^ prime[b]) {
 			if (prime[a]) {
-				for (int i = 2; i <= (int)Math.sqrt(b); i++) {
+				for (int i : (LinkedList<Integer>)factors[b]) factor(i, b/i, num+1, sum+a);
+				/*for (int i = 2; i <= (int)Math.sqrt(b); i++) {
 					if (b % i == 0) factor(i, b/i, num+1, sum+a);
-				}
+				}*/
 			} else {
-				for (int i = 2; i <= (int)Math.sqrt(a);i++) {
+				for (int i : (LinkedList<Integer>)factors[a]) factor(i, a/i, num+1, sum+b);
+				/*for (int i = 2; i <= (int)Math.sqrt(a);i++) {
 					if (a % i == 0) factor(i, a/i, num+1, sum+b);
-				}
+				}*/
 			}
 		} else if ((!prime[a]) && (!prime[b])) { //neither prime
 
@@ -81,6 +96,19 @@ public class C88 {
 			*/
 			LinkedList<Integer> asums = new LinkedList<Integer>();
 			LinkedList<Integer> bsums = new LinkedList<Integer>();
+			for (int i : (LinkedList<Integer>)factors[a]) {
+				factor(i, a/i, num+1, sum+b);
+				bsums.add(i + (a/i));
+			}
+			for (int i : (LinkedList<Integer>)factors[b]) {
+				factor(i, b/i, num+1, sum+a);
+				asums.add(i + (b/i));
+			}
+
+			for (int asum : asums) for (int i : (LinkedList<Integer>)factors[a]) factor(i, a/i, num+2, sum+asum);
+			for (int bsum : bsums) for (int i : (LinkedList<Integer>)factors[b]) factor(i, b/i, num+2, sum+bsum);
+
+			/*
 			for (int i = 2; i <= Math.max((int)Math.sqrt(a),(int)Math.sqrt(b)); i++) {
 				if (a % i == 0) {
 					factor(i, a/i, num+1, sum+b);
@@ -93,6 +121,7 @@ public class C88 {
 			}
 			for (int asum : asums) for (int i = 2; i <= (int)Math.sqrt(a); i++) if (a % i == 0) factor(i, a/i, num+2, sum+asum);
 			for (int bsum : bsums) for (int i = 2; i <= (int)Math.sqrt(b); i++) if (b % i == 0) factor(i, b/i, num+2, sum+bsum);
+			*/
 		}
 	}
 
