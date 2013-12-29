@@ -45,7 +45,7 @@ public class C88 {
 					}
 
 					for (Integer[] num_sum : pairs) {
-						if (k-num_sum[0]+num_sum[1] == n) { //if k-#factors+E(factors) = N, then N is a minial product-sum number
+						if (k-num_sum[0]+num_sum[1] == n) { //if k-#factors+E(factors) = N, then N is a minimal product-sum number
 							if (!crossed[n]) {
 								sum += n;
 								crossed[n] = true;
@@ -66,7 +66,6 @@ public class C88 {
 		Integer[] pair = {num + 2, a+b+sum};
 		pairs.add(pair);
 
-		//if both are prime, do nothing
 		if (prime[a] ^ prime[b]) {
 			if (prime[a]) {
 				for (int i : (LinkedList<Integer>)factors[b]) factor(i, b/i, num+1, sum+a);
@@ -81,8 +80,8 @@ public class C88 {
 			}
 		} else if ((!prime[a]) && (!prime[b])) { //neither prime
 
-			//asums and bsums are for when the counterpart to a branch has sub-branches
-			/*
+			/*asums and bsums are for when the counterpart to a branch has sub-branches
+
 			normal factoring:
 			 / \
 			/\  
