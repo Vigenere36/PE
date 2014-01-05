@@ -5,6 +5,9 @@ public class test {
 		//testLLI();
 		//testLLIA();
 		//testbdD(200);
+		char c = '6';
+		int i = Integer.parseInt(Character.toString(c));
+		System.out.println(i);
 	}
 
 	//testing generics with linked list of integers
